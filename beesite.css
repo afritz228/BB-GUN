@@ -1,0 +1,155 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', cursive;
+    padding: 10px;
+    background: #BFF0FF;
+    color: #001C4C;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 45px;
+    margin-left: 45px;
+}
+
+/* Header/Blog Title */
+.header {
+  background-color: #001C4C;
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 70px;
+}
+
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  font-family: 'Righteous', cursive;
+  background-color: #FED23D;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: left;
+  display: block;
+  color: #001C4C;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: white;
+  color: black;
+}
+
+
+
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {
+  float: left;
+  width: 75%;
+  background-color: #BFF0FF;
+  color: black;
+}
+/* Right column */
+.rightcolumn {
+  float: left;
+  width: 25%;
+  background-color: #BFF0FF;
+  padding-left: 20px;
+  color: black;
+}
+
+.whole {
+  float: left;
+  width: 100%;
+  background-color: #BFF0FF;
+  color: black;
+}
+
+.about1{  float: left;
+  width: 25%;
+  background-color: #BFF0FF;
+  color: black;
+  text-align: center;
+}
+.about2{  float: left;
+  width: 25%;
+  background-color: #BFF0FF;
+  padding-left: 20px;
+  color: black;
+    text-align: center;
+}
+.about3{  float: left;
+  width: 25%;
+  background-color: #BFF0FF;
+  padding-left: 20px;
+  color: black;
+  text-align: center;
+}
+.about4{  float: left;
+  width: 25%;
+  background-color: #BFF0FF;
+  padding-left: 20px;
+  color: black;
+    text-align: center;
+}
+
+/* Fake image */
+.fakeimg {
+    background-color: #BFF0FF;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Add a card effect for articles */
+.card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.tardis {
+  background-color: #001C4C;
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Footer */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #ddd;
+    margin-top: 20px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+    .leftcolumn, .rightcolumn {
+        width: 100%;
+        padding: 0;
+    }
+}
+
+/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px) {
+    .topnav a {
+        float: none;
+        width: 100%;
+    }
+}
