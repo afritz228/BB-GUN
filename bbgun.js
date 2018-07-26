@@ -1,10 +1,21 @@
 var bee;
 var wasp = [];
 var Background;
+var Lives;
+var heart = 50;
+var healthbar;
+var score = 0;
+var scorebar;
+var flower = [];
+var bullet = [];
 //starts the game by creating the game area and spawning the bee
 function startGame() {
+  endCard = new component("50px", "Consolas", "black", 400, 350, "Your Score is: " + score);
     bee = new component(80, 48, "beeSprite1.png", 300, 550, "image");
-    Background = new component(800, 700,"" , 0, 0, "background");
+    Lives = new component("30px", "Consolas", "black", 80, 40, "text");
+    scorebar = new component("30px", "Consolas", "black", 500, 40, "text");
+    Background = new component(1000, 1148,"background.png" , 0, 0, "background");
+    healthbar = new component(heart, 20,"#fb6107" , 280, 20);
 
     myGameArea.start();
 }
@@ -43,10 +54,12 @@ var myGameArea = {
     stop : function() {
         clearInterval(this.interval);
     }
+
 }
 //defining component
 function component(width, height, color, x, y, type) {
     this.type = type;
+
     //if the component is an image it'll be the input image
     if (type == "image" || type == "background"){
       this.image = new Image();
@@ -59,13 +72,18 @@ function component(width, height, color, x, y, type) {
     this.x = x;
     this.y = y;
     this.update = function() {
+      if (this.type == "text") {
+       ctx.font = this.width + " " + this.height;
+       ctx.fillStyle = color;
+       ctx.fillText(this.text, this.x, this.y);
+     }
         ctx = myGameArea.context;
         if (type == "image" || type == "background") {
             ctx.drawImage(this.image,
                 this.x, this.y, this.width, this.height);
             if (type == "background") {
                 ctx.drawImage(this.image,
-                this.x + this.width, this.y, this.width, this.height);
+                this.x, this.y - this.height, this.width, this.height);
             }
    } else {
      ctx.fillStyle = color;
@@ -99,29 +117,57 @@ function component(width, height, color, x, y, type) {
     }
 }
 
-
 function updateGameArea(p) {
     var x, y;
     for (i = 0; i < wasp.length; i += 1) {
-      //if you crash with the wasp the game stops
+      //if you crash with the wasp you lose health
         if (bee.crashWith(wasp[i])) {
-            myGameArea.stop();
-            return;
+            heart = heart-1;
+            healthbar.width += -1;
+
+// if you get to -1 health the game stops
+            if (heart == -1) {
+
+                myGameArea.stop();
+
+                return;
+            }
+        }
+    }
+    for (i = 0; i < flower.length; i += 1){
+      if (bee.crashWith(flower[i])) {
+          score = score + 1;
+          flower.splice(i,1);
         }
     }
     myGameArea.clear();
     myGameArea.frameNo += 1;
     //makes a random number from 0 to 200
-    freq = Math.floor(Math.random() * 200);
+    waspFreq = Math.floor(Math.random() * 200);
+    flowerFreq = Math.floor(Math.random() * (400) +200) ;
+    bulletFreq = 10;
     //spawns little wasps at random intervals
-    if (myGameArea.frameNo == 1 || everyinterval(freq)) {
+    if (myGameArea.frameNo == 1 || everyinterval(waspFreq)) {
       p = Math.floor(Math.random() * (myGameArea.canvas.width-100) );
       //location of wasp spawn(also random)
         x = myGameArea.canvas.width-p;
         y = myGameArea.canvas.height-myGameArea.canvas.height-100;
         //this is the wasp
         wasp.push(new component(75, 75, "waspSprite1.png", x, y, "image"));
+
     }
+
+    if (myGameArea.frameNo == 1 || everyinterval(flowerFreq)){
+      p = Math.floor(Math.random() * (myGameArea.canvas.width-100) );
+        x = myGameArea.canvas.width-p;
+        y = myGameArea.canvas.height-myGameArea.canvas.height-100;
+    flower.push(new component(50, 50, "flower.png", x, y, "image"));
+  }
+  if (myGameArea.frameNo == 1 || everyinterval(bulletFreq)){
+      x = bee.x+ 40;
+      y = bee.y;
+  bullet.push(new component(10, 30, "stinger.png", x, y, "image"));
+}
     //sets the bee speed to  0. Don't delete this.
     bee.speedX = 0;
     bee.speedY = 0;
@@ -130,14 +176,43 @@ function updateGameArea(p) {
   if (myGameArea.keys && myGameArea.keys[39]) {bee.speedX = 10; }
   if (myGameArea.keys && myGameArea.keys[38]) {bee.speedY = -10; }
   if (myGameArea.keys && myGameArea.keys[40]) {bee.speedY = 10; }
+  //if (myGameArea.keys && myGameArea.keys[32]) {
+    // bullet.push(new component(10, 30, "blue", x, y));
+    // for (i = 0; i < bullet.length; i += 1) {
+    //     bullet.y -= 10;
+    //     bullet.update();
+    // }}
+
+  Background.speedY = 2;
+  Background.newPos();
+  Background.update();
+  for (i = 0; i < flower.length; i += 1) {
+      flower[i].y += 2;
+      flower[i].update();
+  }
     for (i = 0; i < wasp.length; i += 1) {
 // wasp speed.
         wasp[i].y += 7;
+        // while (wasp[i].x != bee.x){
+        //   if (wasp[i].x > bee.x){
+        //     wasp[i].x = -1;
+        //   }
+        //   else{
+        //     wasp[i].x += 1;
+        //   }
+        // }
         wasp[i].update();
     }
-    Background.speedY = 2;
-    Background.newPos();
-    Background.update();
+    for (i = 0; i < bullet.length; i += 1) {
+        bullet[i].y += -15;
+        bullet[i].update();
+    }
+    healthbar.newPos();
+    healthbar.update();
+    Lives.text="HEALTH: " + heart;
+    Lives.update();
+    scorebar.text= "SCORE: " + score;
+    scorebar.update();
     //updates the bee.
     bee.newPos();
     bee.update();
