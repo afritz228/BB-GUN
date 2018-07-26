@@ -120,26 +120,36 @@ function component(width, height, color, x, y, type) {
 function updateGameArea(p) {
     var x, y;
     for (i = 0; i < wasp.length; i += 1) {
+      waspHealth = 1;
       //if you crash with the wasp you lose health
+      for(n = 0; n < bullet.length; n += 1){
+        if (wasp[i].crashWith(bullet[n])){
+          bullet.splice(n,1);
+          waspHealth += -1;
+          if(waspHealth == 0){
+            wasp.splice(i,1);
+            score += 2;
+          }
+        }
+      }
         if (bee.crashWith(wasp[i])) {
             heart = heart-1;
             healthbar.width += -1;
-
 // if you get to -1 health the game stops
             if (heart == -1) {
-
                 myGameArea.stop();
-
                 return;
             }
         }
-    }
+      }
+
     for (i = 0; i < flower.length; i += 1){
       if (bee.crashWith(flower[i])) {
           score = score + 1;
           flower.splice(i,1);
         }
     }
+
     myGameArea.clear();
     myGameArea.frameNo += 1;
     //makes a random number from 0 to 200
@@ -164,7 +174,7 @@ function updateGameArea(p) {
     flower.push(new component(50, 50, "flower.png", x, y, "image"));
   }
   if (myGameArea.frameNo == 1 || everyinterval(bulletFreq)){
-      x = bee.x+ 40;
+      x = bee.x+ 35;
       y = bee.y;
   bullet.push(new component(10, 30, "stinger.png", x, y, "image"));
 }
