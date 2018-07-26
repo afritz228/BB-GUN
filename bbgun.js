@@ -120,12 +120,13 @@ function component(width, height, color, x, y, type) {
 function updateGameArea(p) {
     var x, y;
     for (i = 0; i < wasp.length; i += 1) {
-      waspHealth = 1;
+        var waspHealth = 1;
       //if you crash with the wasp you lose health
       for(n = 0; n < bullet.length; n += 1){
+
         if (wasp[i].crashWith(bullet[n])){
+          waspHealth = waspHealth-1;
           bullet.splice(n,1);
-          waspHealth += -1;
           if(waspHealth == 0){
             wasp.splice(i,1);
             score += 2;
@@ -155,10 +156,10 @@ function updateGameArea(p) {
     //makes a random number from 0 to 200
     waspFreq = Math.floor(Math.random() * 200);
     flowerFreq = Math.floor(Math.random() * (400) +200) ;
-    bulletFreq = 10;
+    bulletFreq = 5;
     //spawns little wasps at random intervals
     if (myGameArea.frameNo == 1 || everyinterval(waspFreq)) {
-      p = Math.floor(Math.random() * (myGameArea.canvas.width-100) );
+      p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
       //location of wasp spawn(also random)
         x = myGameArea.canvas.width-p;
         y = myGameArea.canvas.height-myGameArea.canvas.height-100;
@@ -168,30 +169,34 @@ function updateGameArea(p) {
     }
 
     if (myGameArea.frameNo == 1 || everyinterval(flowerFreq)){
-      p = Math.floor(Math.random() * (myGameArea.canvas.width-100) );
+      p = Math.floor(Math.random() * (myGameArea.canvas.width-100));
         x = myGameArea.canvas.width-p;
         y = myGameArea.canvas.height-myGameArea.canvas.height-100;
     flower.push(new component(50, 50, "flower.png", x, y, "image"));
   }
-  if (myGameArea.frameNo == 1 || everyinterval(bulletFreq)){
-      x = bee.x+ 35;
-      y = bee.y;
-  bullet.push(new component(10, 30, "stinger.png", x, y, "image"));
-}
+
     //sets the bee speed to  0. Don't delete this.
     bee.speedX = 0;
     bee.speedY = 0;
     //if you press keys the bee moves. If you delete, the bee doesn't move
-  if (myGameArea.keys && myGameArea.keys[37]) {bee.speedX = -10; }
-  if (myGameArea.keys && myGameArea.keys[39]) {bee.speedX = 10; }
-  if (myGameArea.keys && myGameArea.keys[38]) {bee.speedY = -10; }
-  if (myGameArea.keys && myGameArea.keys[40]) {bee.speedY = 10; }
-  //if (myGameArea.keys && myGameArea.keys[32]) {
-    // bullet.push(new component(10, 30, "blue", x, y));
-    // for (i = 0; i < bullet.length; i += 1) {
-    //     bullet.y -= 10;
-    //     bullet.update();
-    // }}
+  //  if(bee.x < 740){
+  if (myGameArea.keys && myGameArea.keys[37]) {bee.speedX = -10; }//}
+//  else{ bee.x = 739;}
+//  if(bee.x > 0){
+  if (myGameArea.keys && myGameArea.keys[39]) {bee.speedX = 10; }//}
+//  else{bee.x = 1;}
+//  if(bee.y < 660){
+  if (myGameArea.keys && myGameArea.keys[38]) {bee.speedY = -10; }//}
+//  else{bee.y = 659;}
+//  if(bee.y > 0){
+  if (myGameArea.keys && myGameArea.keys[40]) {bee.speedY = 10; }//}
+//  else{bee.y = 1}
+  if (myGameArea.keys && myGameArea.keys[32]) {
+    if (myGameArea.frameNo == 1 || everyinterval(bulletFreq)){
+        x = bee.x+ 35;
+        y = bee.y;
+    bullet.push(new component(10, 30, "stinger.png", x, y, "image"));
+  }}
 
   Background.speedY = 2;
   Background.newPos();
