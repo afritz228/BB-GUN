@@ -16,14 +16,14 @@ var instruction;
 var slide = 1;
 //starts the game by creating the game area and spawning the bee
 function startGame() {
-    welcome = new component(800, 700,"welcome.png" , 0, 0, "background");
-    instruction= new component(800, 700,"instruction.png" , 0, 0, "background");
+    welcome = new component(700, 700,"welcome.png" , 0, 0, "background");
+    instruction= new component(700, 700,"instruction.png" , 0, 0, "background");
     bee = new component(80, 48, "beeSprite1.png", 300, 550, "image");
     Lives = new component("30px", "Consolas", "black", 50, 40, "text");
-    scorebar = new component("30px", "Consolas", "black", 500, 40, "text");
+    scorebar = new component("30px", "Consolas", "black", 450, 40, "text");
     Background = new component(1000, 1148,"background.png" , 0, 0, "background");
     healthbar = new component(heart, 20,"#fb6107" , 230, 20);
-    powerBar = new component("30px", "Consolas", "black", 500, 80, "text");
+    powerBar = new component("30px", "Consolas", "black", 450, 80, "text");
 
     myGameArea.start();
 }
@@ -33,7 +33,7 @@ var myGameArea = {
     canvas : document.createElement("canvas"),
   //canvas settings
     start : function() {
-        this.canvas.width = 800;
+        this.canvas.width = 700;
         this.canvas.height = 700;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
@@ -139,17 +139,21 @@ if(3 < slide && slide < 8){
   if(slide == 8){
     var x, y;
     for (i = 0; i < wasp.length; i += 1) {
-        var waspHealth = 5;
+        var waspHealth = 2;
       //if you crash with the wasp you lose health
       for(n = 0; n < bullet.length; n += 1){
 
         if (wasp[i].crashWith(bullet[n])){
-          waspHealth = waspHealth-1;
-          bullet.splice(n,1);
-          if(waspHealth == 0){
-            wasp.splice(i,1);
-            score += 2;
-          }
+
+          bullet.splice(n, 1);
+          waspHealth = waspHealth -1;
+          return waspHealth;
+
+        }
+
+        if(waspHealth == 0){
+          wasp.splice(i,1);
+          score += 2;
         }
       }
         if (bee.crashWith(wasp[i])) {
@@ -176,7 +180,7 @@ if(3 < slide && slide < 8){
     //makes a random number from 0 to 200
     waspFreq = Math.floor(Math.random() * 200);
     flowerFreq = Math.floor(Math.random() * (400) +200) ;
-    bulletFreq = 5;
+    bulletFreq = 10;
     //spawns little wasps at random intervals
     if (myGameArea.frameNo == 1 || everyinterval(waspFreq)) {
       p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
