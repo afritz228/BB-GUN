@@ -14,18 +14,23 @@ var bullet = [];
 var endcard;
 var welcome;
 var instruction;
+var over;
 var slide = 1;
 var waspHealth = 3;
+var spiderHealth = 5;
 //starts the game by creating the game area and spawning the bee
 function startGame() {
     welcome = new component(700, 700,"welcome.png" , 0, 0, "background");
     instruction= new component(700, 700,"instruction.png" , 0, 0, "background");
+    over = new component(700, 700,"over.png" , 0, 0, "background");
     bee = new component(80, 48, "beeSprite1.png", 300, 550, "image", heart);
     Lives = new component("30px", "Consolas", "black", 50, 40, "text");
     scorebar = new component("30px", "Consolas", "black", 450, 40, "text");
     Background = new component(1000, 1148,"background.png" , 0, 0, "background");
     healthbar = new component(heart, 20,"#fb6107" , 230, 20);
     powerBar = new component("30px", "Consolas", "black", 450, 80, "text");
+    endScore = new component("30px", "Consolas", "black", 400, 395, "text");
+
 
     myGameArea.start();
 }
@@ -160,13 +165,39 @@ if(3 < slide && slide < 8){
             bee.health += -1;
             healthbar.width += -1;
 // if you get to -1 health the game stops
-            if (bee.health == -1) {
+            if (bee.health < 0) {
 
-                myGameArea.stop();
+                slide = 10;
                 return;
             }
         }
       }
+      for (i = 0; i < spider.length; i += 1) {
+        //if you crash with the wasp you lose health
+        for(n = 0; n < bullet.length; n += 1){
+
+          if (spider[i].crashWith(bullet[n])){
+
+            bullet.splice(n, 1);
+            spider[i].health += -1;
+
+          }
+          if(spider[i].health == 0){
+            spider.splice(i,1);
+            score += 5;
+          }
+        }
+          if (bee.crashWith(spider[i])) {
+              bee.health += -2;
+              healthbar.width += -2;
+  // if you get to -1 health the game stops
+              if (bee.health < 0) {
+
+                  slide = 10;
+                  return;
+              }
+            }
+        }
 
     for (i = 0; i < flower.length; i += 1){
       if (bee.crashWith(flower[i])) {
@@ -178,9 +209,10 @@ if(3 < slide && slide < 8){
     myGameArea.clear();
     myGameArea.frameNo += 1;
     //makes a random number from 0 to 200
-    waspFreq = Math.floor(Math.random() * 200);
-    flowerFreq = Math.floor(Math.random() * (400) +200) ;
+    waspFreq = Math.floor(Math.random() * 150);
+    flowerFreq = Math.floor(Math.random() * (400) +200);
     bulletFreq = 10;
+    spiderFreq = Math.floor(Math.random() * (400) +200);
     //spawns little wasps at random intervals
     if (myGameArea.frameNo == 1 || everyinterval(waspFreq)) {
       p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
@@ -198,6 +230,16 @@ if(3 < slide && slide < 8){
         y = myGameArea.canvas.height-myGameArea.canvas.height-100;
     flower.push(new component(50, 50, "flower.png", x, y, "image"));
   }
+  if (myGameArea.frameNo == 1 || everyinterval(spiderFreq)) {
+    p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
+    //location of wasp spawn(also random)
+      x = myGameArea.canvas.width-p;
+      y = myGameArea.canvas.height-myGameArea.canvas.height-100;
+      //this is the wasp
+      spider.push(new component(75, 75, "spider.png", x, y, "image", spiderHealth));
+
+  }
+
 
     //sets the bee speed to  0. Don't delete this.
     bee.speedX = 0;
@@ -229,6 +271,15 @@ if(3 < slide && slide < 8){
       flower[i].y += 2;
       flower[i].update();
   }
+  for (i = 0; i < spider.length; i += 1) {
+      spider[i].y += 5;
+      if ((spider[i].x-bee.x)< -50) {
+        spider[i].x += 6;
+      }
+      if(spider[i].x-bee.x> 50){spider[i].x += -6;}
+
+      spider[i].update();
+  }
     for (i = 0; i < wasp.length; i += 1) {
 // wasp speed.
         wasp[i].y += 8;
@@ -239,6 +290,7 @@ if(3 < slide && slide < 8){
 
         wasp[i].update();
     }
+
     for (i = 0; i < bullet.length; i += 1) {
         bullet[i].y += -15;
         bullet[i].update();
@@ -255,6 +307,12 @@ if(3 < slide && slide < 8){
     //updates the bee.
     bee.newPos();
     bee.update();
+  }
+  if (slide == 10){
+    over.update();
+    endScore.text = score;
+    endScore.update();
+
   }
 }
 //I forgot what this does. I think it's important...
