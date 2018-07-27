@@ -29,7 +29,7 @@ body {
 /* Style the top navigation bar */
 .topnav {
   overflow: hidden;
-  font-family: 'Righteous', cursive;
+  font-family: 'Roboto', cursive;
   background-color: #FED23D;
 }
 
@@ -103,12 +103,6 @@ body {
     text-align: center;
 }
 
-/* Fake image */
-.fakeimg {
-    background-color: #BFF0FF;
-    width: 100%;
-    padding: 20px;
-}
 
 /* Add a card effect for articles */
 .card {
