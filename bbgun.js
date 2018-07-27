@@ -17,7 +17,7 @@ var instruction;
 var over;
 var slide = 1;
 var waspHealth = 3;
-var spiderHealth = 5;
+var spiderHealth = 7;
 //starts the game by creating the game area and spawning the bee
 function startGame() {
     welcome = new component(700, 700,"welcome.png" , 0, 0, "background");
