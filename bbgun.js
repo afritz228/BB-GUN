@@ -1,5 +1,6 @@
 var bee;
 var wasp = [];
+var spider = [];
 var Background;
 var Lives;
 var heart = 50;
@@ -14,11 +15,12 @@ var endcard;
 var welcome;
 var instruction;
 var slide = 1;
+var waspHealth = 3;
 //starts the game by creating the game area and spawning the bee
 function startGame() {
     welcome = new component(700, 700,"welcome.png" , 0, 0, "background");
     instruction= new component(700, 700,"instruction.png" , 0, 0, "background");
-    bee = new component(80, 48, "beeSprite1.png", 300, 550, "image");
+    bee = new component(80, 48, "beeSprite1.png", 300, 550, "image", heart);
     Lives = new component("30px", "Consolas", "black", 50, 40, "text");
     scorebar = new component("30px", "Consolas", "black", 450, 40, "text");
     Background = new component(1000, 1148,"background.png" , 0, 0, "background");
@@ -65,7 +67,7 @@ var myGameArea = {
 
 }
 //defining component
-function component(width, height, color, x, y, type) {
+function component(width, height, color, x, y, type, health) {
     this.type = type;
 
     //if the component is an image it'll be the input image
@@ -79,6 +81,7 @@ function component(width, height, color, x, y, type) {
     this.speedY = 0;
     this.x = x;
     this.y = y;
+    this.health = health;
     this.update = function() {
       if (this.type == "text") {
        ctx.font = this.width + " " + this.height;
@@ -139,28 +142,25 @@ if(3 < slide && slide < 8){
   if(slide == 8){
     var x, y;
     for (i = 0; i < wasp.length; i += 1) {
-        var waspHealth = 2;
       //if you crash with the wasp you lose health
       for(n = 0; n < bullet.length; n += 1){
 
         if (wasp[i].crashWith(bullet[n])){
 
           bullet.splice(n, 1);
-          waspHealth = waspHealth -1;
-          return waspHealth;
+          wasp[i].health += -1;
 
         }
-
-        if(waspHealth == 0){
+        if(wasp[i].health == 0){
           wasp.splice(i,1);
           score += 2;
         }
       }
         if (bee.crashWith(wasp[i])) {
-            heart = heart-1;
+            bee.health += -1;
             healthbar.width += -1;
 // if you get to -1 health the game stops
-            if (heart == -1) {
+            if (bee.health == -1) {
 
                 myGameArea.stop();
                 return;
@@ -188,7 +188,7 @@ if(3 < slide && slide < 8){
         x = myGameArea.canvas.width-p;
         y = myGameArea.canvas.height-myGameArea.canvas.height-100;
         //this is the wasp
-        wasp.push(new component(75, 75, "waspSprite1.png", x, y, "image"));
+        wasp.push(new component(75, 75, "waspSprite1.png", x, y, "image", waspHealth));
 
     }
 
@@ -232,14 +232,10 @@ if(3 < slide && slide < 8){
     for (i = 0; i < wasp.length; i += 1) {
 // wasp speed.
         wasp[i].y += 8;
-        if ((wasp[i].x-bee.x)< -50) {
-          wasp[i].x += 3;
-          // if (wasp[i] < bee.x){
-          //   wasp[i].x += 1;}
-          // if(wasp[i] > bee.x){
-          //   wasp[i].x += -1;}
-        }
-        if(wasp[i].x-bee.x> 50){wasp[i].x += -3;}
+        // if ((wasp[i].x-bee.x)< -50) {
+        //   wasp[i].x += 3;
+        // }
+        // if(wasp[i].x-bee.x> 50){wasp[i].x += -3;}
 
         wasp[i].update();
     }
@@ -250,7 +246,7 @@ if(3 < slide && slide < 8){
 
     healthbar.newPos();
     healthbar.update();
-    Lives.text="HEALTH: " + heart;
+    Lives.text="HEALTH: " + bee.health;
     Lives.update();
     scorebar.text= "SCORE: " + score;
     scorebar.update();
