@@ -228,6 +228,14 @@ if(3 < slide && slide < 8){
     for (i = 0; i < wasp.length; i += 1) {
 // wasp speed.
         wasp[i].y += 8;
+        if ((wasp[i].x-bee.x)<30) {
+          wasp[i].x += 3;
+          // if (wasp[i] < bee.x){
+          //   wasp[i].x += 1;}
+          // if(wasp[i] > bee.x){
+          //   wasp[i].x += -1;}
+        }
+        else {wasp[i].x += -3;}
 
         wasp[i].update();
     }
