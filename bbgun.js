@@ -59,7 +59,7 @@ var myGameArea = {
       //this is for measuring purposes. No touch.
         this.frameNo = 0;
         //this codes how fast the screen refreshes
-        this.interval = setInterval(updateGameArea, 20);
+        this.interval = setInterval(updateGameArea, 30);
         },
   //clears the screen. If you delete this, the objects will trail
   //(aka don't touch)
