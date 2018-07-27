@@ -6,7 +6,7 @@ var Lives;
 var heart = 50;
 var healthbar;
 var score = 0;
-var flowerPower = 0;
+// var flowerPower = 0;
 var powerBar;
 var scorebar;
 var flower = [];
@@ -28,7 +28,7 @@ function startGame() {
     scorebar = new component("30px", "Consolas", "black", 450, 40, "text");
     Background = new component(1000, 1148,"background.png" , 0, 0, "background");
     healthbar = new component(heart, 20,"#fb6107" , 230, 20);
-    powerBar = new component("30px", "Consolas", "black", 450, 80, "text");
+    // powerBar = new component("30px", "Consolas", "black", 450, 80, "text");
     endScore = new component("30px", "Consolas", "black", 400, 395, "text");
 
 
@@ -201,7 +201,7 @@ if(3 < slide && slide < 8){
 
     for (i = 0; i < flower.length; i += 1){
       if (bee.crashWith(flower[i])) {
-          flowerPower = flowerPower + 1;
+          bee.health += 1;
           flower.splice(i,1);
         }
     }
@@ -212,7 +212,7 @@ if(3 < slide && slide < 8){
     waspFreq = Math.floor(Math.random() * 150);
     flowerFreq = Math.floor(Math.random() * (400) +200);
     bulletFreq = 10;
-    spiderFreq = Math.floor(Math.random() * (400) +200);
+    spiderFreq = Math.floor(Math.random() * (300)+100);
     //spawns little wasps at random intervals
     if (myGameArea.frameNo == 1 || everyinterval(waspFreq)) {
       p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
@@ -302,8 +302,8 @@ if(3 < slide && slide < 8){
     Lives.update();
     scorebar.text= "SCORE: " + score;
     scorebar.update();
-    powerBar.text = "Flower Power: "+ flowerPower;
-    powerBar.update();
+    // powerBar.text = "Flower Power: "+ flowerPower;
+    // powerBar.update();
     //updates the bee.
     bee.newPos();
     bee.update();
