@@ -5,17 +5,25 @@ var Lives;
 var heart = 50;
 var healthbar;
 var score = 0;
+var flowerPower = 0;
+var powerBar;
 var scorebar;
 var flower = [];
 var bullet = [];
+var endcard;
+var welcome;
+var instruction;
+var slide = 1;
 //starts the game by creating the game area and spawning the bee
 function startGame() {
-  endCard = new component("50px", "Consolas", "black", 400, 350, "Your Score is: " + score);
+    welcome = new component(800, 700,"welcome.png" , 0, 0, "background");
+    instruction= new component(800, 700,"instruction.png" , 0, 0, "background");
     bee = new component(80, 48, "beeSprite1.png", 300, 550, "image");
-    Lives = new component("30px", "Consolas", "black", 80, 40, "text");
+    Lives = new component("30px", "Consolas", "black", 50, 40, "text");
     scorebar = new component("30px", "Consolas", "black", 500, 40, "text");
     Background = new component(1000, 1148,"background.png" , 0, 0, "background");
-    healthbar = new component(heart, 20,"#fb6107" , 280, 20);
+    healthbar = new component(heart, 20,"#fb6107" , 230, 20);
+    powerBar = new component("30px", "Consolas", "black", 500, 80, "text");
 
     myGameArea.start();
 }
@@ -117,7 +125,18 @@ function component(width, height, color, x, y, type) {
     }
 }
 
+
 function updateGameArea(p) {
+  if (slide < 4){
+    welcome.update();
+    if (myGameArea.keys && myGameArea.keys[13]) {slide += 1;}
+  }
+if(3 < slide && slide < 8){
+  instruction.update();
+  if (myGameArea.keys && myGameArea.keys[13]) {slide += 1;}
+}
+
+  if(slide == 8){
     var x, y;
     for (i = 0; i < wasp.length; i += 1) {
         var waspHealth = 1;
@@ -138,6 +157,7 @@ function updateGameArea(p) {
             healthbar.width += -1;
 // if you get to -1 health the game stops
             if (heart == -1) {
+
                 myGameArea.stop();
                 return;
             }
@@ -146,7 +166,7 @@ function updateGameArea(p) {
 
     for (i = 0; i < flower.length; i += 1){
       if (bee.crashWith(flower[i])) {
-          score = score + 1;
+          flowerPower = flowerPower + 1;
           flower.splice(i,1);
         }
     }
@@ -179,18 +199,18 @@ function updateGameArea(p) {
     bee.speedX = 0;
     bee.speedY = 0;
     //if you press keys the bee moves. If you delete, the bee doesn't move
-  //  if(bee.x < 740){
-  if (myGameArea.keys && myGameArea.keys[37]) {bee.speedX = -10; }//}
-//  else{ bee.x = 739;}
-//  if(bee.x > 0){
-  if (myGameArea.keys && myGameArea.keys[39]) {bee.speedX = 10; }//}
-//  else{bee.x = 1;}
-//  if(bee.y < 660){
-  if (myGameArea.keys && myGameArea.keys[38]) {bee.speedY = -10; }//}
-//  else{bee.y = 659;}
-//  if(bee.y > 0){
-  if (myGameArea.keys && myGameArea.keys[40]) {bee.speedY = 10; }//}
-//  else{bee.y = 1}
+   if(bee.x < 740){
+  if (myGameArea.keys && myGameArea.keys[37]) {bee.speedX = -10; }}
+ else{ bee.x = 739;}
+ if(bee.x > 0){
+  if (myGameArea.keys && myGameArea.keys[39]) {bee.speedX = 10; }}
+ else{bee.x = 1;}
+ if(bee.y < 660){
+  if (myGameArea.keys && myGameArea.keys[38]) {bee.speedY = -10; }}
+ else{bee.y = 659;}
+ if(bee.y > 0){
+  if (myGameArea.keys && myGameArea.keys[40]) {bee.speedY = 10; }}
+ else{bee.y = 1}
   if (myGameArea.keys && myGameArea.keys[32]) {
     if (myGameArea.frameNo == 1 || everyinterval(bulletFreq)){
         x = bee.x+ 35;
@@ -207,30 +227,27 @@ function updateGameArea(p) {
   }
     for (i = 0; i < wasp.length; i += 1) {
 // wasp speed.
-        wasp[i].y += 7;
-        // while (wasp[i].x != bee.x){
-        //   if (wasp[i].x > bee.x){
-        //     wasp[i].x = -1;
-        //   }
-        //   else{
-        //     wasp[i].x += 1;
-        //   }
-        // }
+        wasp[i].y += 8;
+
         wasp[i].update();
     }
     for (i = 0; i < bullet.length; i += 1) {
         bullet[i].y += -15;
         bullet[i].update();
     }
+
     healthbar.newPos();
     healthbar.update();
     Lives.text="HEALTH: " + heart;
     Lives.update();
     scorebar.text= "SCORE: " + score;
     scorebar.update();
+    powerBar.text = "Flower Power: "+ flowerPower;
+    powerBar.update();
     //updates the bee.
     bee.newPos();
     bee.update();
+  }
 }
 //I forgot what this does. I think it's important...
 function everyinterval(n) {
