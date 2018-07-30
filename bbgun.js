@@ -1,6 +1,7 @@
 var bee;
 var wasp = [];
 var spider = [];
+var dragonfly = [];
 var Background;
 var Lives;
 var heart = 50;
@@ -18,6 +19,8 @@ var over;
 var slide = 1;
 var waspHealth = 2;
 var spiderHealth = 7;
+var dragonHealth = 3;
+var paused = false;
 //starts the game by creating the game area and spawning the bee
 function startGame() {
     welcome = new component(700, 700,"welcome.png" , 0, 0, "background");
@@ -33,6 +36,15 @@ function startGame() {
 
 
     myGameArea.start();
+}
+function pause(){
+  if (!paused)
+  {
+      paused = true;
+  } else if (paused)
+  {
+     paused= false;
+  }
 }
 //Game area settings
 var myGameArea = {
@@ -55,12 +67,14 @@ var myGameArea = {
   window.addEventListener('keyup', function (e) {
             myGameArea.keys[e.keyCode] = false;
   })
+
+
   //fps settings.
       //this is for measuring purposes. No touch.
         this.frameNo = 0;
         //this codes how fast the screen refreshes
         this.interval = setInterval(updateGameArea, 30);
-        },
+      },
   //clears the screen. If you delete this, the objects will trail
   //(aka don't touch)
     clear : function() {
@@ -145,6 +159,7 @@ if(3 < slide && slide < 8){
 }
 
   if(slide == 8){
+
     var x, y;
     for (i = 0; i < wasp.length; i += 1) {
       //if you crash with the wasp you lose health
@@ -198,7 +213,32 @@ if(3 < slide && slide < 8){
               }
             }
         }
+        for (i = 0; i < dragonfly.length; i += 1) {
+          //if you crash with the wasp you lose health
+          for(n = 0; n < bullet.length; n += 1){
 
+            if (dragonfly[i].crashWith(bullet[n])){
+
+              bullet.splice(n, 1);
+              dragonfly[i].health += -1;
+
+            }
+            if(dragonfly[i].health == 0){
+              dragonfly.splice(i,1);
+              score += 2;
+            }
+          }
+            if (bee.crashWith(dragonfly[i])) {
+                bee.health += -1;
+                healthbar.width += -1;
+      // if you get to -1 health the game stops
+                if (bee.health < 0) {
+
+                    slide = 10;
+                    return;
+                }
+            }
+          }
     for (i = 0; i < flower.length; i += 1){
       if (bee.crashWith(flower[i])) {
           bee.health += 2;
@@ -207,13 +247,15 @@ if(3 < slide && slide < 8){
         }
     }
 
+    if (!paused){
     myGameArea.clear();
     myGameArea.frameNo += 1;
     //makes a random number from 0 to 200
     waspFreq = Math.floor(Math.random() * 150);
-    flowerFreq = Math.floor(Math.random() * (400) +200);
+    flowerFreq = Math.floor(Math.random() * (401) +200);
     bulletFreq = 10;
-    spiderFreq = Math.floor(Math.random() * (300)+100);
+    spiderFreq = Math.floor(Math.random() * (301)+100);
+    dragonflyFreq = Math.floor(Math.random() * (301)+100);
     //spawns little wasps at random intervals
     if (myGameArea.frameNo == 1 || everyinterval(waspFreq)) {
       p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
@@ -237,7 +279,16 @@ if(3 < slide && slide < 8){
       x = myGameArea.canvas.width-p;
       y = myGameArea.canvas.height-myGameArea.canvas.height-100;
       //this is the wasp
-      spider.push(new component(75, 75, "spider.png", x, y, "image", spiderHealth));
+      spider.push(new component(75, 75, "anispider.gif", x, y, "image", spiderHealth));
+
+  }
+  if (myGameArea.frameNo == 1 || everyinterval(dragonflyFreq)) {
+    p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
+    //location of wasp spawn(also random)
+      x = myGameArea.canvas.width-p;
+      y = myGameArea.canvas.height-myGameArea.canvas.height-100;
+      //this is the wasp
+      dragonfly.push(new component(75, 75, "anidragonfly.gif", x, y, "image", dragonHealth));
 
   }
 
@@ -291,6 +342,11 @@ if(3 < slide && slide < 8){
 
         wasp[i].update();
     }
+    for (i = 0; i < dragonfly.length; i += 1) {
+// wasp speed.
+        dragonfly[i].y += 6;
+        dragonfly[i].update();
+    }
 
     for (i = 0; i < bullet.length; i += 1) {
         bullet[i].y += -15;
@@ -309,6 +365,7 @@ if(3 < slide && slide < 8){
     bee.newPos();
     bee.update();
   }
+  }
   if (slide == 10){
     over.update();
     endScore.text = score;
@@ -318,6 +375,7 @@ if(3 < slide && slide < 8){
 
   }
   }
+
 }
 //I forgot what this does. I think it's important...
 function everyinterval(n) {
