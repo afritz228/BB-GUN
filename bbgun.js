@@ -29,7 +29,7 @@ function startGame() {
     Background = new component(1000, 1148,"background.png" , 0, 0, "background");
     healthbar = new component(heart, 20,"#fb6107" , 230, 20);
     // powerBar = new component("30px", "Consolas", "black", 450, 80, "text");
-    endScore = new component("30px", "Consolas", "black", 400, 395, "text");
+    endScore = new component("50px", "Consolas", "black", 400, 395, "text");
 
 
     myGameArea.start();
