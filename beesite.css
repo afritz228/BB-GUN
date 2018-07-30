@@ -7,8 +7,8 @@ body {
     padding: 10px;
     background: #BFF0FF;
     color: #001C4C;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top:15px;
+    margin-bottom: 10px;
     margin-right: 45px;
     margin-left: 45px;
 }
@@ -17,9 +17,9 @@ body {
 .header {
   background-color: #001C4C;
   width: 100%;
-  padding: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  padding: 8px;
+  margin-top: 6px;
+  margin-bottom: 4px;
 }
 
 .header h1 {
@@ -39,7 +39,7 @@ body {
   display: block;
   color: #001C4C;
   text-align: center;
-  padding: 14px 16px;
+  padding: 12px 10px;
   text-decoration: none;
 }
 
@@ -73,6 +73,8 @@ body {
   width: 100%;
   background-color: #BFF0FF;
   color: black;
+  padding-top:3px;
+  padding-bottom: 3px;
 }
 
 .onehalf{
@@ -139,10 +141,10 @@ body {
 
 /* Footer */
 .footer {
-    padding: 20px;
+    padding: 10px;
     text-align: center;
     background: #ddd;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
