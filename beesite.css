@@ -77,14 +77,14 @@ body {
 
 .onehalf{
     float: left;
-  width: 50%;
+  width: 45%;
   background-color: #BFF0FF;
   color: black;
   text-align: center;
 }
 
 .twohalf{float: left;
-  width: 50%;
+  width: 45%;
   background-color: #BFF0FF;
   color: black;
     text-align: center;}
