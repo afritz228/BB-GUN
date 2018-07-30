@@ -23,7 +23,7 @@ function startGame() {
     welcome = new component(700, 700,"welcome.png" , 0, 0, "background");
     instruction= new component(700, 700,"instruction.png" , 0, 0, "background");
     over = new component(700, 700,"over.png" , 0, 0, "background");
-    bee = new component(80, 48, "beeSprite1.png", 300, 550, "image", heart);
+    bee = new component(80, 48, "anibee.gif", 300, 550, "image", heart);
     Lives = new component("30px", "Consolas", "black", 50, 40, "text");
     scorebar = new component("30px", "Consolas", "black", 450, 40, "text");
     Background = new component(1000, 1148,"background.png" , 0, 0, "background");
@@ -40,8 +40,8 @@ var myGameArea = {
     canvas : document.createElement("canvas"),
   //canvas settings
     start : function() {
-        this.canvas.width = 700;
-        this.canvas.height = 700;
+        this.canvas.width = 680;
+        this.canvas.height = 680;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
   //this allows the program to detect keyboard hits
@@ -221,7 +221,7 @@ if(3 < slide && slide < 8){
         x = myGameArea.canvas.width-p;
         y = myGameArea.canvas.height-myGameArea.canvas.height-100;
         //this is the wasp
-        wasp.push(new component(75, 75, "waspSprite1.png", x, y, "image", waspHealth));
+        wasp.push(new component(75, 75, "aniwasp.gif", x, y, "image", waspHealth));
 
     }
 
@@ -246,15 +246,15 @@ if(3 < slide && slide < 8){
     bee.speedX = 0;
     bee.speedY = 0;
     //if you press keys the bee moves. If you delete, the bee doesn't move
-   if(bee.x < 650){
+   if(bee.x < 630){
   if (myGameArea.keys && myGameArea.keys[37]) {bee.speedX = -10; }}
- else{ bee.x = 649;}
+ else{ bee.x = 629;}
  if(bee.x > -5){
   if (myGameArea.keys && myGameArea.keys[39]) {bee.speedX = 10; }}
  else{bee.x = -4;}
- if(bee.y < 660){
+ if(bee.y < 630){
   if (myGameArea.keys && myGameArea.keys[38]) {bee.speedY = -10; }}
- else{bee.y = 659;}
+ else{bee.y = 629;}
  if(bee.y > 0){
   if (myGameArea.keys && myGameArea.keys[40]) {bee.speedY = 10; }}
  else{bee.y = 1}
