@@ -12,6 +12,7 @@ var powerBar;
 var scorebar;
 var flower = [];
 var bullet = [];
+var dragonBullet = [];
 var endcard;
 var welcome;
 var instruction;
@@ -239,6 +240,29 @@ if(3 < slide && slide < 8){
                 }
             }
           }
+          for (i = 0; i < dragonBullet.length; i += 1) {
+            //if you crash with the wasp you lose health
+            for(n = 0; n < bullet.length; n += 1){
+
+              if (dragonBullet[i].crashWith(bullet[n])){
+
+                bullet.splice(n, 1);
+                dragonBullet.splice(i, 1);
+
+              }
+            }
+              if (bee.crashWith(dragonBullet[i])) {
+                  bee.health += -5;
+                  healthbar.width += -5;
+                  dragonBullet.splice(i,1);
+        // if you get to -1 health the game stops
+                  if (bee.health < 0) {
+
+                      slide = 10;
+                      return;
+                  }
+              }
+            }
     for (i = 0; i < flower.length; i += 1){
       if (bee.crashWith(flower[i])) {
           bee.health += 2;
@@ -252,10 +276,11 @@ if(3 < slide && slide < 8){
     myGameArea.frameNo += 1;
     //makes a random number from 0 to 200
     waspFreq = Math.floor(Math.random() * 150);
-    flowerFreq = Math.floor(Math.random() * (401) +200);
+    flowerFreq = Math.floor(Math.random() * (301) +200);
     bulletFreq = 10;
     spiderFreq = Math.floor(Math.random() * (301)+100);
     dragonflyFreq = Math.floor(Math.random() * (301)+100);
+    shoot = 50;
     //spawns little wasps at random intervals
     if (myGameArea.frameNo == 1 || everyinterval(waspFreq)) {
       p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
@@ -290,7 +315,9 @@ if(3 < slide && slide < 8){
       //this is the wasp
       dragonfly.push(new component(75, 75, "anidragonfly.gif", x, y, "image", dragonHealth));
 
+
   }
+
 
 
     //sets the bee speed to  0. Don't delete this.
@@ -314,7 +341,8 @@ if(3 < slide && slide < 8){
         x = bee.x+ 35;
         y = bee.y;
     bullet.push(new component(10, 30, "stinger.png", x, y, "image"));
-  }}
+  }
+}
 
   Background.speedY = 2;
   Background.newPos();
@@ -344,13 +372,25 @@ if(3 < slide && slide < 8){
     }
     for (i = 0; i < dragonfly.length; i += 1) {
 // wasp speed.
+
         dragonfly[i].y += 6;
         dragonfly[i].update();
+        if (myGameArea.frameNo == 1 || everyinterval(shoot)){
+            x = dragonfly[i].x+ 35;
+            y = dragonfly[i].y;
+        dragonBullet.push(new component(10, 30, "stinger.png", x, y, "image"));
+        }
+
+
     }
 
     for (i = 0; i < bullet.length; i += 1) {
         bullet[i].y += -15;
         bullet[i].update();
+    }
+    for (i = 0; i < dragonBullet.length; i += 1){
+      dragonBullet[i].y += 10;
+      dragonBullet[i].update();
     }
 
     healthbar.newPos();
