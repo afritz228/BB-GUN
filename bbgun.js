@@ -16,7 +16,7 @@ var welcome;
 var instruction;
 var over;
 var slide = 1;
-var waspHealth = 3;
+var waspHealth = 2;
 var spiderHealth = 7;
 //starts the game by creating the game area and spawning the bee
 function startGame() {
@@ -158,7 +158,7 @@ if(3 < slide && slide < 8){
         }
         if(wasp[i].health == 0){
           wasp.splice(i,1);
-          score += 2;
+          score += 1;
         }
       }
         if (bee.crashWith(wasp[i])) {
@@ -201,7 +201,8 @@ if(3 < slide && slide < 8){
 
     for (i = 0; i < flower.length; i += 1){
       if (bee.crashWith(flower[i])) {
-          bee.health += 1;
+          bee.health += 2;
+          healthbar.width += 2;
           flower.splice(i,1);
         }
     }
@@ -245,12 +246,12 @@ if(3 < slide && slide < 8){
     bee.speedX = 0;
     bee.speedY = 0;
     //if you press keys the bee moves. If you delete, the bee doesn't move
-   if(bee.x < 740){
+   if(bee.x < 650){
   if (myGameArea.keys && myGameArea.keys[37]) {bee.speedX = -10; }}
- else{ bee.x = 739;}
- if(bee.x > 0){
+ else{ bee.x = 649;}
+ if(bee.x > -5){
   if (myGameArea.keys && myGameArea.keys[39]) {bee.speedX = 10; }}
- else{bee.x = 1;}
+ else{bee.x = -4;}
  if(bee.y < 660){
   if (myGameArea.keys && myGameArea.keys[38]) {bee.speedY = -10; }}
  else{bee.y = 659;}
@@ -312,7 +313,10 @@ if(3 < slide && slide < 8){
     over.update();
     endScore.text = score;
     endScore.update();
+    if (myGameArea.keys && myGameArea.keys[13]) {
+      location.reload();
 
+  }
   }
 }
 //I forgot what this does. I think it's important...
