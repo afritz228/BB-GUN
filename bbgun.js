@@ -18,7 +18,7 @@ var instruction;
 var over;
 var slide = 1;
 var waspHealth = 2;
-var spiderHealth = 7;
+var spiderHealth = 5;
 var dragonHealth = 3;
 var paused = false;
 //starts the game by creating the game area and spawning the bee
