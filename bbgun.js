@@ -423,8 +423,8 @@ if(3 < slide && slide < 8){
     Lives.update();
     scorebar.text= "SCORE: " + score;
     scorebar.update();
-    test.text = waspLV+" " + waspFreq + " " +myGameArea.frameNo;
-    test.update();
+    // test.text = waspLV+" " + waspFreq + " " +myGameArea.frameNo;
+    // test.update();
     // powerBar.text = "Flower Power: "+ flowerPower;
     // powerBar.update();
     //updates the bee.
