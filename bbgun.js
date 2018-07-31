@@ -25,6 +25,7 @@ var paused = false;
 var counter = 0;
 //starts the game by creating the game area and spawning the bee
 function startGame() {
+
     welcome = new component(700, 700,"welcome.png" , 0, 0, "background");
     instruction= new component(700, 700,"instruction.png" , 0, 0, "background");
     over = new component(700, 700,"over.png" , 0, 0, "background");
@@ -73,6 +74,7 @@ var myGameArea = {
 
   //fps settings.
       //this is for measuring purposes. No touch.
+name = prompt("Enter your name (this is for the leaderboard)", "Unknown Player");
         this.frameNo = 0;
         //this codes how fast the screen refreshes
         this.interval = setInterval(updateGameArea, 30);
@@ -421,9 +423,11 @@ if(3 < slide && slide < 8){
   }
   }
   if (slide == 10){
+    //name = prompt("Enter your name", "Unknown Player");
     over.update();
     endScore.text = score;
     endScore.update();
+
     if (myGameArea.keys && myGameArea.keys[13]) {
       location.reload();
 
