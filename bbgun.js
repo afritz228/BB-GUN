@@ -292,7 +292,7 @@ if(3 < slide && slide < 8){
     if (waspLV > 380){
       waspFreq = Math.floor(Math.random() * (20) );
       bulletFreq = 8;
-      flowerFreq = Math.floor(Math.random() * (300);}
+      flowerFreq = Math.floor(Math.random() * (301));}
     //spawns little wasps at random intervals
     if (myGameArea.frameNo == 1 || everyinterval(waspFreq)) {
       p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
