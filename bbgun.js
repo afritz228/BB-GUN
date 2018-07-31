@@ -22,6 +22,7 @@ var waspHealth = 2;
 var spiderHealth = 5;
 var dragonHealth = 3;
 var paused = false;
+var counter = 0;
 //starts the game by creating the game area and spawning the bee
 function startGame() {
     welcome = new component(700, 700,"welcome.png" , 0, 0, "background");
@@ -150,6 +151,7 @@ function component(width, height, color, x, y, type, health) {
 
 
 function updateGameArea(p) {
+  counter += 1;
   if (slide < 4){
     welcome.update();
     if (myGameArea.keys && myGameArea.keys[13]) {slide += 1;}
@@ -178,8 +180,8 @@ if(3 < slide && slide < 8){
         }
       }
         if (bee.crashWith(wasp[i])) {
-            bee.health += -1;
-            healthbar.width += -1;
+            bee.health += -0.5;
+            healthbar.width += -0.5;
 // if you get to -1 health the game stops
             if (bee.health < 0) {
 
@@ -288,7 +290,7 @@ if(3 < slide && slide < 8){
         x = myGameArea.canvas.width-p;
         y = myGameArea.canvas.height-myGameArea.canvas.height-100;
         //this is the wasp
-        wasp.push(new component(75, 75, "aniwasp.gif", x, y, "image", waspHealth));
+        wasp.push(new component(90, 90, "aniwasp.gif", x, y, "image", waspHealth));
 
     }
 
@@ -296,7 +298,7 @@ if(3 < slide && slide < 8){
       p = Math.floor(Math.random() * (myGameArea.canvas.width-100));
         x = myGameArea.canvas.width-p;
         y = myGameArea.canvas.height-myGameArea.canvas.height-100;
-    flower.push(new component(50, 50, "flower.png", x, y, "image"));
+    flower.push(new component(60, 60, "flower.png", x, y, "image"));
   }
   if (myGameArea.frameNo == 1 || everyinterval(spiderFreq)) {
     p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
@@ -304,17 +306,17 @@ if(3 < slide && slide < 8){
       x = myGameArea.canvas.width-p;
       y = myGameArea.canvas.height-myGameArea.canvas.height-100;
       //this is the wasp
-      spider.push(new component(75, 75, "anispider.gif", x, y, "image", spiderHealth));
+      spider.push(new component(85, 85, "anispider.gif", x, y, "image", spiderHealth));
 
   }
+
   if (myGameArea.frameNo == 1 || everyinterval(dragonflyFreq)) {
     p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
     //location of wasp spawn(also random)
       x = myGameArea.canvas.width-p;
       y = myGameArea.canvas.height-myGameArea.canvas.height-100;
       //this is the wasp
-      dragonfly.push(new component(75, 75, "anidragonfly.gif", x, y, "image", dragonHealth));
-
+      dragonfly.push(new component(90, 90, "anidragonfly.gif", x, y, "image", dragonHealth));
 
   }
 
@@ -337,10 +339,11 @@ if(3 < slide && slide < 8){
   if (myGameArea.keys && myGameArea.keys[40]) {bee.speedY = 10; }}
  else{bee.y = 1}
   if (myGameArea.keys && myGameArea.keys[32]) {
-    if (myGameArea.frameNo == 1 || everyinterval(bulletFreq)){
+    if (counter >= bulletFreq){
         x = bee.x+ 35;
         y = bee.y;
     bullet.push(new component(10, 30, "stinger.png", x, y, "image"));
+    counter = 0;
   }
 }
 
