@@ -23,8 +23,10 @@ var spiderHealth = 5;
 var dragonHealth = 3;
 var paused = false;
 var counter = 0;
+var test;
 //starts the game by creating the game area and spawning the bee
 function startGame() {
+
     welcome = new component(700, 700,"welcome.png" , 0, 0, "background");
     instruction= new component(700, 700,"instruction.png" , 0, 0, "background");
     over = new component(700, 700,"over.png" , 0, 0, "background");
@@ -35,6 +37,7 @@ function startGame() {
     healthbar = new component(heart, 20,"#fb6107" , 230, 20);
     // powerBar = new component("30px", "Consolas", "black", 450, 80, "text");
     endScore = new component("50px", "Consolas", "black", 400, 395, "text");
+    test = new component("30px", "Consolas", "black", 400, 395, "text");
 
 
     myGameArea.start();
@@ -73,6 +76,7 @@ var myGameArea = {
 
   //fps settings.
       //this is for measuring purposes. No touch.
+
         this.frameNo = 0;
         //this codes how fast the screen refreshes
         this.interval = setInterval(updateGameArea, 30);
@@ -276,13 +280,19 @@ if(3 < slide && slide < 8){
     if (!paused){
     myGameArea.clear();
     myGameArea.frameNo += 1;
-    //makes a random number from 0 to 200
-    waspFreq = Math.floor(Math.random() * 150);
-    flowerFreq = Math.floor(Math.random() * (301) +200);
+
+    waspLV = Math.floor(myGameArea.frameNo / 50);
+    waspFreq = Math.floor(Math.random() * (400 - waspLV) );
+
+    flowerFreq = Math.floor(Math.random() * (301)+200);
     bulletFreq = 10;
     spiderFreq = Math.floor(Math.random() * (301)+100);
     dragonflyFreq = Math.floor(Math.random() * (301)+100);
     shoot = 50;
+    if (waspLV > 380){
+      waspFreq = Math.floor(Math.random() * (20) );
+      bulletFreq = 8;
+      flowerFreq = Math.floor(Math.random() * (300);}
     //spawns little wasps at random intervals
     if (myGameArea.frameNo == 1 || everyinterval(waspFreq)) {
       p = Math.floor(Math.random() * (myGameArea.canvas.width-100)+100 );
@@ -413,6 +423,8 @@ if(3 < slide && slide < 8){
     Lives.update();
     scorebar.text= "SCORE: " + score;
     scorebar.update();
+    test.text = waspLV+" " + waspFreq + " " +myGameArea.frameNo;
+    test.update();
     // powerBar.text = "Flower Power: "+ flowerPower;
     // powerBar.update();
     //updates the bee.
@@ -421,9 +433,11 @@ if(3 < slide && slide < 8){
   }
   }
   if (slide == 10){
+    //name = prompt("Enter your name", "Unknown Player");
     over.update();
     endScore.text = score;
     endScore.update();
+
     if (myGameArea.keys && myGameArea.keys[13]) {
       location.reload();
 
