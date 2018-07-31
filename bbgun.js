@@ -350,6 +350,9 @@ if(3 < slide && slide < 8){
   for (i = 0; i < flower.length; i += 1) {
       flower[i].y += 2;
       flower[i].update();
+      if (flower[i].y > 700){
+        flower.splice(i, 1);
+      }
   }
   for (i = 0; i < spider.length; i += 1) {
       spider[i].y += 5;
@@ -359,6 +362,9 @@ if(3 < slide && slide < 8){
       if(spider[i].x-bee.x> 50){spider[i].x += -6;}
 
       spider[i].update();
+      if (spider[i].y > 700){
+        spider.splice(i, 1);
+      }
   }
     for (i = 0; i < wasp.length; i += 1) {
 // wasp speed.
@@ -369,6 +375,9 @@ if(3 < slide && slide < 8){
         // if(wasp[i].x-bee.x> 50){wasp[i].x += -3;}
 
         wasp[i].update();
+        if (wasp[i].y > 700){
+          wasp.splice(i, 1);
+        }
     }
     for (i = 0; i < dragonfly.length; i += 1) {
 // wasp speed.
@@ -378,9 +387,11 @@ if(3 < slide && slide < 8){
         if (myGameArea.frameNo == 1 || everyinterval(shoot)){
             x = dragonfly[i].x+ 35;
             y = dragonfly[i].y;
-        dragonBullet.push(new component(10, 30, "stinger.png", x, y, "image"));
+        dragonBullet.push(new component(10, 30, "stingwasp.png", x, y, "image"));
         }
-
+        if (dragonfly[i].y > 700){
+          dragonfly.splice(i, 1);
+        }
 
     }
 
