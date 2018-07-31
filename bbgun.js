@@ -281,7 +281,7 @@ if(3 < slide && slide < 8){
     myGameArea.clear();
     myGameArea.frameNo += 1;
 
-    waspLV = Math.floor(myGameArea.frameNo / 50);
+    waspLV = Math.floor(myGameArea.frameNo / 30);
     waspFreq = Math.floor(Math.random() * (400 - waspLV) );
 
     flowerFreq = Math.floor(Math.random() * (301)+200);
@@ -289,8 +289,8 @@ if(3 < slide && slide < 8){
     spiderFreq = Math.floor(Math.random() * (301)+100);
     dragonflyFreq = Math.floor(Math.random() * (301)+100);
     shoot = 50;
-    if (waspLV > 380){
-      waspFreq = Math.floor(Math.random() * (20) );
+    if (waspLV > 350){
+      waspFreq = Math.floor(Math.random() * (30) );
       bulletFreq = 8;
       flowerFreq = Math.floor(Math.random() * (301));}
     //spawns little wasps at random intervals
@@ -411,10 +411,16 @@ if(3 < slide && slide < 8){
     for (i = 0; i < bullet.length; i += 1) {
         bullet[i].y += -15;
         bullet[i].update();
+        if (bullet[i].y < -20){
+          bullet.splice(i, 1);
+        }
     }
     for (i = 0; i < dragonBullet.length; i += 1){
       dragonBullet[i].y += 10;
       dragonBullet[i].update();
+      if (dragonBullet[i].y > 700){
+        dragonBullet.splice(i, 1);
+      }
     }
 
     healthbar.newPos();
